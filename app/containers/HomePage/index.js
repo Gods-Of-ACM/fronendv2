@@ -11,14 +11,24 @@
 
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+// import ItemTable from 'components/ItemTable';
+// import Description from 'components/Description';
+
 import messages from './messages';
+
 
 export default class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
+    this.data = [{ str: 'hi', num: 1234, bool: 'true', wild: 'bye' },
+                { str: 'aahsadpfajwepoifjawoipjfawjef', num: null, bool: 'false', wild: 420 },
+                { str: 'aah', num: null, bool: null, wild: null }];
+    this.thing = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. /n/nCurabitur sodales ligula in libero. Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor. Maecenas mattis. Sed convallis tristique sem. Proin ut ligula vel nunc egestas porttitor. Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.';
     return (
-      <h1>
-        <FormattedMessage {...messages.header} />
-      </h1>
+      <div>
+        <h1>
+          <FormattedMessage {...messages.header} />
+        </h1>
+      </div>
     );
   }
 }
