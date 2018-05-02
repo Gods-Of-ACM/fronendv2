@@ -7,6 +7,7 @@ injectGlobal`
     margin-top: 25px;
     height: 100%;
     width: 100%;
+    background-color: #FAFAFA;
   }
 
   body {
