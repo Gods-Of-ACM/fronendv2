@@ -98,9 +98,15 @@ export class SearchPage extends React.Component { // eslint-disable-line react/p
         </NavItem>
       );
 
-      itemTable = (
-        <ItemTable data={this.props.results} handleClick={this.displayDetails} />
-      );
+      if (this.state.viewStyle === 'list') {
+        itemTable = (
+          <ItemList data={this.props.results} handleClick={this.displayDetails} />
+        );
+      } else {
+        itemTable = (
+          <ItemTable data={this.props.results} handleClick={this.displayDetails} />
+        );
+      }
     } else {
       this.tableNames = Object.keys(this.props.results);
       this.tableNames.forEach((elm, idx) => {
