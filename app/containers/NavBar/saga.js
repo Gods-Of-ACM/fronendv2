@@ -40,7 +40,7 @@ export function* login(action) {
       throw new Error(data.err);
     }
   } catch (err) {
-    console.log(err);
+    window.alert(err);
   }
 }
 
@@ -67,7 +67,7 @@ export function* register(action) {
       throw new Error(data.err);
     }
   } catch (err) {
-    console.log(err);
+    window.alert(err);
   }
 }
 
