@@ -35,11 +35,10 @@ class ItemList extends React.Component { // eslint-disable-line react/prefer-sta
         picKeys.push(key);
       } else if (!picKeys.includes(key)) { // don't display keys proven to be pics
         items.push(
-          <Table style={{ padding: 0, margin: 0 }}>
+          <Table key={i.toString()} style={{ padding: 0, margin: 0 }}>
             <tbody>
               <tr>
-                <td style={{ width: '30%' }}><strong>{key}:</strong></td>
-                <td>{obj[key] || ''}</td>
+                <td style={{ width: '30%' }}><strong>{key}:</strong>{` ${obj[key]}` || ''}</td>
               </tr>
             </tbody>
           </Table>

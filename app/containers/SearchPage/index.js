@@ -17,6 +17,8 @@ import DetailView from 'containers/DetailView';
 import FloatingButton from 'components/FloatingButton';
 import OptionsModal from 'containers/OptionsModal';
 import AdvancedQueryHelper from 'utils/advancedQuery';
+import ToggleView from 'components/ToggleView';
+import ItemList from 'components/ItemList';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -35,6 +37,7 @@ export class SearchPage extends React.Component { // eslint-disable-line react/p
     this.closeModal = this.closeModal.bind(this);
     this.updateOptions = this.updateOptions.bind(this);
     this.showOptions = this.showOptions.bind(this);
+    this.switchView = this.switchView.bind(this);
     let query = props.location.search;
     if (query.length > 3) {
       query = query.slice(3);
@@ -52,7 +55,12 @@ export class SearchPage extends React.Component { // eslint-disable-line react/p
       options: {
         show: false,
       },
+      viewStyle: 'list',
     };
+  }
+
+  switchView(view) {
+    this.setState({ viewStyle: view });
   }
 
   handleSelect(table) {
@@ -112,9 +120,15 @@ export class SearchPage extends React.Component { // eslint-disable-line react/p
       });
 
       if (this.tableNames.length !== 0 && this.props.results[this.tableNames[this.state.currentTable]].length !== 0) {
-        itemTable = (
-          <ItemTable data={this.props.results[this.tableNames[this.state.currentTable]]} handleClick={this.displayDetails} />
-        );
+        if (this.state.viewStyle === 'list') {
+          itemTable = (
+            <ItemList data={this.props.results[this.tableNames[this.state.currentTable]]} handleClick={this.displayDetails} />
+          );
+        } else {
+          itemTable = (
+            <ItemTable data={this.props.results[this.tableNames[this.state.currentTable]]} handleClick={this.displayDetails} />
+          );
+        }
       } else {
         itemTable = (
           <Row style={{ padding: '20px' }}>
@@ -138,6 +152,20 @@ export class SearchPage extends React.Component { // eslint-disable-line react/p
           <Col xs={10} xsOffset={1}>
             <div style={{ marginBottom: '25px' }}>
               <Button onClick={this.showOptions}>Advanced Search</Button>
+              <ToggleView
+                options={[
+                  {
+                    value: 'list',
+                    label: 'List',
+                  },
+                  {
+                    value: 'table',
+                    label: 'table',
+                  },
+                ]
+                }
+                handler={this.switchView}
+              />
             </div>
           </Col>
         </Row>
