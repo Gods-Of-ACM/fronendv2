@@ -68,7 +68,7 @@ export class SearchPage extends React.Component { // eslint-disable-line react/p
   }
 
   closeModal() {
-    this.setState({ options: { show: false } });
+    this.setState({ details: { show: false } });
   }
 
   updateOptions() {
