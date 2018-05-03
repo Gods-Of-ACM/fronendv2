@@ -11,10 +11,12 @@ import { Helmet } from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import { Nav, NavItem, Panel, Col, Row } from 'react-bootstrap';
+import { Nav, NavItem, Panel, Col, Row, Button } from 'react-bootstrap';
 import ItemTable from 'components/ItemTable';
 import DetailView from 'containers/DetailView';
 import FloatingButton from 'components/FloatingButton';
+import OptionsModal from 'containers/OptionsModal';
+import AdvancedQueryHelper from 'utils/advancedQuery';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -22,7 +24,7 @@ import makeSelectSearchPage, { makeSelectSearchResults, makeSelectSearchType, ma
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import { basicSearch } from './actions';
+import { basicSearch, advancedSearch } from './actions';
 
 export class SearchPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -31,17 +33,24 @@ export class SearchPage extends React.Component { // eslint-disable-line react/p
     this.handleSelect = this.handleSelect.bind(this);
     this.displayDetails = this.displayDetails.bind(this);
     this.closeModal = this.closeModal.bind(this);
+    this.updateOptions = this.updateOptions.bind(this);
+    this.showOptions = this.showOptions.bind(this);
     let query = props.location.search;
     if (query.length > 3) {
       query = query.slice(3);
       props.dispatch(basicSearch(query));
     }
 
+    this.helper = new AdvancedQueryHelper('chemical');
+
     this.state = {
       currentTable: 0,
       details: {
         show: false,
         id: null,
+      },
+      options: {
+        show: false,
       },
     };
   }
@@ -54,20 +63,30 @@ export class SearchPage extends React.Component { // eslint-disable-line react/p
     this.setState({ details: { show: true, id } });
   }
 
+  showOptions() {
+    this.setState({ options: { show: true } });
+  }
+
   closeModal() {
     this.setState({ details: { show: false } });
+  }
+
+  updateOptions() {
+    this.props.dispatch(advancedSearch(this.tableNames[this.state.currentTable], this.helper.serialize()));
+    this.setState({ options: { show: false } });
   }
 
   render() {
     // Results will be an array for advanced search
     // and an object for basic
     const needTabs = !Array.isArray(this.props.results);
+    const isAdvanced = Array.isArray(this.props.results);
     const tabs = [];
     let itemTable = null;
     if (!needTabs) {
       tabs.push(
         <NavItem eventKey={0} key={1} active>
-          {this.props.searchType}
+          {this.helper.modelName}
         </NavItem>
       );
 
@@ -117,12 +136,16 @@ export class SearchPage extends React.Component { // eslint-disable-line react/p
       <div style={{ marginTop: '50px' }}>
         <Row>
           <Col xs={10} xsOffset={1}>
+            <div style={{ marginBottom: '25px' }}>
+              <Button onClick={this.showOptions}>Advanced Search</Button>
+            </div>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={10} xsOffset={1}>
             <Panel bsStyle="info">
               <Panel.Body>
-                <FormattedMessage
-                  id="app.components.SearchPage.querySearched"
-                  defaultMessage={`Showing results for search: ${this.props.searchedQuery}`}
-                />
+                {`Showing results for search: ${this.props.searchedQuery}`}
               </Panel.Body>
             </Panel>
           </Col>
@@ -150,7 +173,8 @@ export class SearchPage extends React.Component { // eslint-disable-line react/p
             }
           </Col>
         </Row>
-        <FloatingButton query={this.props.searchedQuery} />
+        <OptionsModal model={this.tableNames[this.state.currentTable]} show={this.state.options.show} onHide={this.updateOptions} helper={this.helper} />
+        <FloatingButton isAdvanced={isAdvanced} query={this.props.searchedQuery} />
       </div>
     );
   }
@@ -165,7 +189,6 @@ SearchPage.propTypes = {
   location: PropTypes.shape({
     search: PropTypes.string.isRequired,
   }),
-  searchType: PropTypes.string.isRequired,
   searchedQuery: PropTypes.string.isRequired,
 };
 
