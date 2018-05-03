@@ -13,6 +13,7 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { Nav, NavItem, Panel, Col, Row } from 'react-bootstrap';
 import ItemTable from 'components/ItemTable';
+import FloatingButton from 'components/FloatingButton';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -128,6 +129,7 @@ export class SearchPage extends React.Component { // eslint-disable-line react/p
             </Panel>
           </Col>
         </Row>
+        <FloatingButton query={this.props.searchedQuery} />
       </div>
     );
   }
