@@ -15,6 +15,11 @@ import { Nav, NavItem, Panel, Col, Row } from 'react-bootstrap';
 import ItemTable from 'components/ItemTable';
 import DetailView from 'containers/DetailView';
 import FloatingButton from 'components/FloatingButton';
+/*
+import OptionsModal from 'containers/OptionsModal';
+import AdvancedQueryHelper from 'utils/advancedQuery';
+import ToggleView from 'components/ToggleView';
+ */
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
