@@ -48,7 +48,7 @@ export class DetailView extends React.Component { // eslint-disable-line react/p
   render() {
     return (
       <div style={{ height: '100%' }} ref={(ref) => { this.component = ref; }}>
-        <Modal show={this.props.show} onHide={this.props.onClose}>
+        <Modal show={this.props.show} onHide={this.props.onClose} bsSize="large">
           <Modal.Header closeButton>
             {this.props.details.Substance_Name}
           </Modal.Header>
