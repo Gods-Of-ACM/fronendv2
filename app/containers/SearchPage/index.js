@@ -37,6 +37,7 @@ export class SearchPage extends React.Component { // eslint-disable-line react/p
     this.closeModal = this.closeModal.bind(this);
     this.updateOptions = this.updateOptions.bind(this);
     this.showOptions = this.showOptions.bind(this);
+    this.switchView = this.switchView.bind(this);
     let query = props.location.search;
     if (query.length > 3) {
       query = query.slice(3);
@@ -56,6 +57,10 @@ export class SearchPage extends React.Component { // eslint-disable-line react/p
       },
       viewStyle: 'list',
     };
+  }
+
+  switchView(view) {
+    this.setState({ viewStyle: view });
   }
 
   handleSelect(table) {
@@ -159,7 +164,7 @@ export class SearchPage extends React.Component { // eslint-disable-line react/p
                   },
                 ]
                 }
-                handler={(thing) => { console.log(thing); }}
+                handler={this.switchView}
               />
             </div>
           </Col>

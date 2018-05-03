@@ -35,7 +35,7 @@ class ItemList extends React.Component { // eslint-disable-line react/prefer-sta
         picKeys.push(key);
       } else if (!picKeys.includes(key)) { // don't display keys proven to be pics
         items.push(
-          <Table style={{ padding: 0, margin: 0 }}>
+          <Table key={i.toString()} style={{ padding: 0, margin: 0 }}>
             <tbody>
               <tr>
                 <td style={{ width: '30%' }}><strong>{key}:</strong>{` ${obj[key]}` || ''}</td>
@@ -64,7 +64,6 @@ class ItemList extends React.Component { // eslint-disable-line react/prefer-sta
     );
   }
   render() {
-    console.log(this.props.data);
     const toDisplay = this.genList(this.props.data, this.picKeys);
     return (
       <Table striped bordered condensed hover style={{ maxWidth: '1200px', margin: 'auto' }}>
