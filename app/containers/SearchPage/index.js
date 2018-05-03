@@ -80,12 +80,13 @@ export class SearchPage extends React.Component { // eslint-disable-line react/p
     // Results will be an array for advanced search
     // and an object for basic
     const needTabs = !Array.isArray(this.props.results);
+    const isAdvanced = Array.isArray(this.props.results);
     const tabs = [];
     let itemTable = null;
     if (!needTabs) {
       tabs.push(
         <NavItem eventKey={0} key={1} active>
-          {this.props.searchType}
+          {this.helper.modelName}
         </NavItem>
       );
 
@@ -136,7 +137,7 @@ export class SearchPage extends React.Component { // eslint-disable-line react/p
         <Row>
           <Col xs={10} xsOffset={1}>
             <div style={{ marginBottom: '25px' }}>
-              <Button onClick={this.showOptions} bsSize="md">Advanced Search</Button>
+              <Button onClick={this.showOptions}>Advanced Search</Button>
             </div>
           </Col>
         </Row>
@@ -173,7 +174,7 @@ export class SearchPage extends React.Component { // eslint-disable-line react/p
           </Col>
         </Row>
         <OptionsModal model={this.tableNames[this.state.currentTable]} show={this.state.options.show} onHide={this.updateOptions} helper={this.helper} />
-        <FloatingButton query={this.props.searchedQuery} />
+        <FloatingButton isAdvanced={isAdvanced} query={this.props.searchedQuery} />
       </div>
     );
   }
@@ -188,7 +189,6 @@ SearchPage.propTypes = {
   location: PropTypes.shape({
     search: PropTypes.string.isRequired,
   }),
-  searchType: PropTypes.string.isRequired,
   searchedQuery: PropTypes.string.isRequired,
 };
 
