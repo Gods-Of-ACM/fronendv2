@@ -24,7 +24,7 @@ export function* basicSearch(action) {
 }
 
 export function* advancedSearch(action) {
-  const requestUrl = `${API_URL}/search/advanced/${action.model}?q=${action.query}`;
+  const requestUrl = `${API_URL}/search/advanced${action.query}`;
   const options = {
     method: 'GET',
   };
@@ -32,7 +32,7 @@ export function* advancedSearch(action) {
   try {
     const data = yield call(request, requestUrl, options);
     if (data.success) {
-      yield put(searchResults(data.payload, action.model));
+      yield put(searchResults(data.payload, action.model, action.query));
     } else {
       throw new Error(data.err);
     }
