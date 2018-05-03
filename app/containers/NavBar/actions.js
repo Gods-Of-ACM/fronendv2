@@ -10,11 +10,22 @@ import {
   LOG_OUT,
   LOG_IN_SUCCESS,
   LOG_IN_ERROR,
+  REGISTER,
 } from './constants';
 
 export function defaultAction() {
   return {
     type: DEFAULT_ACTION,
+  };
+}
+
+export function register(username, password, firstName, lastName) {
+  return {
+    type: REGISTER,
+    username,
+    password,
+    firstName,
+    lastName,
   };
 }
 

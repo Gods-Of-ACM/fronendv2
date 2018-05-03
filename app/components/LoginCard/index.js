@@ -78,7 +78,6 @@ class LoginCard extends React.Component { // eslint-disable-line react/prefer-st
     return (
       <div>
         <Well bsSize="small">
-          <Well bsSize="small">{this.state.current}</Well>
           <form onSubmit={(evt) => { evt.preventDefault(); this.submit(this.results); }}>
             { form }
             <Button type="submit" bsStyle="primary">Submit</Button>
