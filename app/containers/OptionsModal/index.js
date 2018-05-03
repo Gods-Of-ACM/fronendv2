@@ -43,6 +43,7 @@ export class OptionsModal extends React.Component { // eslint-disable-line react
     this.handleModelChange = this.handleModelChange.bind(this);
     this.handleAddOption = this.handleAddOption.bind(this);
     this.saveOptions = this.saveOptions.bind(this);
+    this.props.dispatch(modelDetails((this.props.model || 'chemical')));
   }
 
   unwindHelper(model) {
@@ -157,7 +158,7 @@ export class OptionsModal extends React.Component { // eslint-disable-line react
     return (
       <Modal
         show={this.props.show}
-        onHide={this.props.onHide}
+        onHide={() => { this.saveOptions(); this.props.onHide(); }}
         bsSize="large"
         aria-labelledby="contained-modal-title-lg"
       >
