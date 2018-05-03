@@ -13,6 +13,7 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { Nav, NavItem, Panel, Col, Row } from 'react-bootstrap';
 import ItemTable from 'components/ItemTable';
+import DetailView from 'containers/DetailView';
 import FloatingButton from 'components/FloatingButton';
 
 import injectSaga from 'utils/injectSaga';
@@ -28,6 +29,8 @@ export class SearchPage extends React.Component { // eslint-disable-line react/p
     super(props);
     this.tableNames = ['No Results for Current Query'];
     this.handleSelect = this.handleSelect.bind(this);
+    this.displayDetails = this.displayDetails.bind(this);
+    this.closeModal = this.closeModal.bind(this);
     let query = props.location.search;
     if (query.length > 3) {
       query = query.slice(3);
@@ -36,11 +39,23 @@ export class SearchPage extends React.Component { // eslint-disable-line react/p
 
     this.state = {
       currentTable: 0,
+      details: {
+        show: false,
+        id: null,
+      },
     };
   }
 
   handleSelect(table) {
     this.setState({ currentTable: table });
+  }
+
+  displayDetails(id) {
+    this.setState({ details: { show: true, id } });
+  }
+
+  closeModal() {
+    this.setState({ details: { show: false } });
   }
 
   render() {
@@ -57,7 +72,7 @@ export class SearchPage extends React.Component { // eslint-disable-line react/p
       );
 
       itemTable = (
-        <ItemTable data={this.props.results} />
+        <ItemTable data={this.props.results} handleClick={this.displayDetails} />
       );
     } else {
       this.tableNames = Object.keys(this.props.results);
@@ -79,7 +94,7 @@ export class SearchPage extends React.Component { // eslint-disable-line react/p
 
       if (this.tableNames.length !== 0 && this.props.results[this.tableNames[this.state.currentTable]].length !== 0) {
         itemTable = (
-          <ItemTable data={this.props.results[this.tableNames[this.state.currentTable]]} />
+          <ItemTable data={this.props.results[this.tableNames[this.state.currentTable]]} handleClick={this.displayDetails} />
         );
       } else {
         itemTable = (
@@ -127,6 +142,12 @@ export class SearchPage extends React.Component { // eslint-disable-line react/p
             <Panel>
               {itemTable}
             </Panel>
+            {
+              (this.state.details.show && this.tableNames[this.state.currentTable] === 'chemical') ? (
+                <DetailView show={this.state.details.show} onClose={this.closeModal} details={this.props.results[this.tableNames[this.state.currentTable]][this.state.details.id]} />
+              ) :
+              null
+            }
           </Col>
         </Row>
         <FloatingButton query={this.props.searchedQuery} />
