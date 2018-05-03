@@ -12,6 +12,7 @@ import { compose } from 'redux';
 import { Row, Col, Grid } from 'react-bootstrap';
 import LoginCard from 'components/LoginCard';
 import Description from 'components/Description';
+import { login, register } from 'containers/NavBar/actions';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -20,8 +21,12 @@ import reducer from './reducer';
 import saga from './saga';
 
 export class LoginPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
-  login() {
-    console.log('hello');
+  login(type, data) {
+    if (type === 'login') {
+      this.props.dispatch(login(data.username, data.password));
+    } else {
+      this.props.dispatch(register(data.username, data.password, data.firstName, data.lastName));
+    }
   }
 
   render() {
@@ -33,13 +38,13 @@ export class LoginPage extends React.Component { // eslint-disable-line react/pr
               <Description
                 name="dont care"
                 text={{
-                  header: 'MY NAME IS JOSEPH',
-                  long: 'This is a longer Description that you should totally read',
+                  header: 'Welcome to ChemMoa',
+                  long: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe error facilis debitis deleniti nam ea excepturi. Voluptates impedit nisi provident minus, quaerat in quos. Obcaecati, esse, dicta! Fuga, sunt eum, impedit quos culpa explicabo iusto molestiae laudantium. Illum exercitationem saepe ratione modi quisquam sed magni expedita, fugiat reprehenderit nobis officia.',
                 }}
               />
             </Col>
             <Col md={5} mdOffset={1}>
-              <LoginCard handler={() => this.login()} />
+              <LoginCard handler={(type, data) => this.login(type, data)} />
             </Col>
           </Row>
         </Grid>
